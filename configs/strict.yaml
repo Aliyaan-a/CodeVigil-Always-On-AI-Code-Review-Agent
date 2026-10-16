@@ -1,0 +1,38 @@
+analyzers:
+  ast:
+    enabled: true
+    max_complexity: 7
+    max_cognitive_complexity: 10
+    max_function_length: 30
+    max_parameter_count: 4
+    max_nesting_depth: 3
+    max_return_statements: 3
+  security:
+    enabled: true
+    severity_threshold: info
+  style:
+    enabled: true
+    max_line_length: 100
+    enforce_docstrings: true
+    enforce_type_hints: true
+  llm:
+    enabled: false
+
+plugins:
+  - security_scanner
+  - performance_checker
+  - docstring_enforcer
+
+scoring:
+  weights:
+    security: 5.0
+    bug: 3.0
+    performance: 2.0
+    style: 1.0
+    maintainability: 2.0
+
+reporting:
+  format: console
+  include_suggestions: true
+  include_metrics: true
+  severity_threshold: info

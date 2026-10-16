@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CodeVigil Report — /tmp/demo_9dgkuw3r.py</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#e2e8f0;padding:2rem;line-height:1.6}
+.container{max-width:900px;margin:0 auto}
+h1{font-size:1.8rem;margin-bottom:.5rem;color:#f8fafc}
+.meta{color:#94a3b8;font-size:.9rem;margin-bottom:2rem}
+.score-card{background:#1e293b;border-radius:12px;padding:1.5rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem}
+.grade{font-size:4rem;font-weight:800;min-width:80px;text-align:center}
+.score-value{font-size:1.2rem;color:#94a3b8;min-width:80px}
+.score-bars{flex:1}
+.bar-row{display:flex;align-items:center;margin:.3rem 0;gap:.5rem}
+.bar-label{width:120px;font-size:.85rem;color:#94a3b8;text-align:right}
+.bar-track{flex:1;height:8px;background:#334155;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.bar-value{width:40px;font-size:.85rem;text-align:right}
+.finding{background:#1e293b;border-radius:8px;padding:1rem;margin-bottom:.75rem;border-left:4px solid}
+.severity-critical{border-color:#dc2626}.severity-error{border-color:#ef4444}.severity-warning{border-color:#eab308}.severity-info{border-color:#06b6d4}
+.finding-header{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;flex-wrap:wrap}
+.badge{padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:700;color:#fff}
+.badge.severity-critical{background:#dc2626}.badge.severity-error{background:#ef4444}.badge.severity-warning{background:#854d0e}.badge.severity-info{background:#0e7490}
+.rule-id{color:#60a5fa;font-weight:600;font-size:.85rem}
+.location{color:#94a3b8;font-size:.85rem}
+.title{font-weight:600}
+.description{color:#94a3b8;font-size:.9rem;margin-bottom:.5rem}
+.code-snippet{background:#0f172a;padding:.75rem;border-radius:6px;font-size:.8rem;overflow-x:auto;color:#cbd5e1;white-space:pre;font-family:'JetBrains Mono',Consolas,monospace}
+.suggestion{color:#4ade80;font-size:.85rem;margin-top:.5rem}
+footer{text-align:center;color:#475569;font-size:.8rem;margin-top:2rem;padding-top:1rem;border-top:1px solid #1e293b}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🔍 CodeVigil Report</h1>
+<div class="meta">
+    /tmp/demo_9dgkuw3r.py · 1 files · 14ms
+</div>
+
+            <div class="score-card">
+                <div class="grade" style="color:#dc2626">F</div>
+                <div class="score-value">21.6/100</div>
+                <div class="score-bars">
+                    
+        <div class="bar-row">
+            <span class="bar-label">Security</span>
+            <div class="bar-track"><div class="bar-fill" style="width:0.0%;background:#ef4444"></div></div>
+            <span class="bar-value">0</span>
+        </div>
+                    
+        <div class="bar-row">
+            <span class="bar-label">Reliability</span>
+            <div class="bar-track"><div class="bar-fill" style="width:0.0%;background:#ef4444"></div></div>
+            <span class="bar-value">0</span>
+        </div>
+                    
+        <div class="bar-row">
+            <span class="bar-label">Maintainability</span>
+            <div class="bar-track"><div class="bar-fill" style="width:47.0%;background:#ef4444"></div></div>
+            <span class="bar-value">47</span>
+        </div>
+                    
+        <div class="bar-row">
+            <span class="bar-label">Style</span>
+            <div class="bar-track"><div class="bar-fill" style="width:81.5%;background:#22c55e"></div></div>
+            <span class="bar-value">82</span>
+        </div>
+                </div>
+            </div>
+<h2 style="margin-bottom:1rem">Findings (28)</h2>
+
+            <div class="finding severity-critical">
+                <div class="finding-header">
+                    <span class="badge severity-critical">CRITICAL</span>
+                    <span class="rule-id">SEC-001</span>
+                    <span class="location">L6</span>
+                    <span class="title">Hardcoded API key</span>
+                </div>
+                <div class="description">Possible hardcoded API key detected. Store secrets in environment variables or a secrets manager.</div>
+                <pre class="code-snippet">       4 | from os import *
+       5 | 
+&gt;&gt;&gt;    6 | API_KEY = &quot;sk-1234567890abcdef1234567890abcdef&quot;
+       7 | password = &quot;hardcoded_password_123&quot;
+       8 | DEBUG = True</pre>
+                <div class="suggestion">💡 Use os.environ.get(&#x27;API_KEY&#x27;) or a secrets manager.</div>
+            </div>
+            <div class="finding severity-critical">
+                <div class="finding-header">
+                    <span class="badge severity-critical">CRITICAL</span>
+                    <span class="rule-id">SEC-002</span>
+                    <span class="location">L7</span>
+                    <span class="title">Hardcoded password</span>
+                </div>
+                <div class="description">Possible hardcoded password or secret token detected.</div>
+                <pre class="code-snippet">       5 | 
+       6 | API_KEY = &quot;sk-1234567890abcdef1234567890abcdef&quot;
+&gt;&gt;&gt;    7 | password = &quot;hardcoded_password_123&quot;
+       8 | DEBUG = True
+       9 | </pre>
+                <div class="suggestion">💡 Use environment variables or a vault service for secrets.</div>
+            </div>
+            <div class="finding severity-critical">
+                <div class="finding-header">
+                    <span class="badge severity-critical">CRITICAL</span>
+                    <span class="rule-id">SEC-021</span>
+                    <span class="location">L12</span>
+                    <span class="title">Use of eval()</span>
+                </div>
+                <div class="description">eval() executes arbitrary Python expressions.</div>
+                <pre class="code-snippet">      10 | def ProcessUserData(user_id, data=[], config={}, options=None, verbose=False, retry=3):
+      11 |     &quot;&quot;&quot;Process user data.&quot;&quot;&quot;
+&gt;&gt;&gt;   12 |     eval(data)
+      13 |     os.system(f&quot;echo {user_id}&quot;)
+      14 |     loaded = pickle.loads(data)</pre>
+                <div class="suggestion">💡 Use ast.literal_eval() for safe evaluation.</div>
+            </div>
+            <div class="finding severity-critical">
+                <div class="finding-header">
+                    <span class="badge severity-critical">CRITICAL</span>
+                    <span class="rule-id">SEC-011</span>
+                    <span class="location">L13</span>
+                    <span class="title">Command injection risk via os.system()</span>
+                </div>
+                <div class="description">os.system() executes commands via shell, enabling injection.</div>
+                <pre class="code-snippet">      11 |     &quot;&quot;&quot;Process user data.&quot;&quot;&quot;
+      12 |     eval(data)
+&gt;&gt;&gt;   13 |     os.system(f&quot;echo {user_id}&quot;)
+      14 |     loaded = pickle.loads(data)
+      15 | </pre>
+                <div class="suggestion">💡 Use subprocess.run() with a list of arguments.</div>
+            </div>
+            <div class="finding severity-critical">
+                <div class="finding-header">
+                    <span class="badge severity-critical">CRITICAL</span>
+                    <span class="rule-id">SEC-020</span>
+                    <span class="location">L14</span>
+                    <span class="title">Insecure deserialization with pickle</span>
+                </div>
+                <div class="description">pickle.loads() can execute arbitrary code during deserialization.</div>
+                <pre class="code-snippet">      12 |     eval(data)
+      13 |     os.system(f&quot;echo {user_id}&quot;)
+&gt;&gt;&gt;   14 |     loaded = pickle.loads(data)
+      15 | 
+      16 |     if loaded == None:</pre>
+                <div class="suggestion">💡 Use JSON or a safe serialization format.</div>
+            </div>
+            <div class="finding severity-error">
+                <div class="finding-header">
+                    <span class="badge severity-error">ERROR</span>
+                    <span class="rule-id">SEC-025</span>
+                    <span class="location">L8</span>
+                    <span class="title">Debug mode enabled</span>
+                </div>
+                <div class="description">Debug mode appears to be enabled, which can expose sensitive information.</div>
+                <pre class="code-snippet">       6 | API_KEY = &quot;sk-1234567890abcdef1234567890abcdef&quot;
+       7 | password = &quot;hardcoded_password_123&quot;
+&gt;&gt;&gt;    8 | DEBUG = True
+       9 | 
+      10 | def ProcessUserData(user_id, data=[], config={}, options=None, verbose=False, retry=3):</pre>
+                <div class="suggestion">💡 Ensure DEBUG is False in production configuration.</div>
+            </div>
+            <div class="finding severity-error">
+                <div class="finding-header">
+                    <span class="badge severity-error">ERROR</span>
+                    <span class="rule-id">AST-001</span>
+                    <span class="location">L10</span>
+                    <span class="title">Mutable default argument</span>
+                </div>
+                <div class="description">Function &#x27;ProcessUserData&#x27; uses a mutable default argument. Mutable defaults are shared across all calls and can lead to subtle bugs.</div>
+                <pre class="code-snippet">       8 | DEBUG = True
+       9 | 
+&gt;&gt;&gt;   10 | def ProcessUserData(user_id, data=[], config={}, options=None, verbose=False, retry=3):
+      11 |     &quot;&quot;&quot;Process user data.&quot;&quot;&quot;
+      12 |     eval(data)</pre>
+                <div class="suggestion">💡 Use None as default and initialize inside the function body.</div>
+            </div>
+            <div class="finding severity-error">
+                <div class="finding-header">
+                    <span class="badge severity-error">ERROR</span>
+                    <span class="rule-id">CX-002</span>
+                    <span class="location">L10</span>
+                    <span class="title">High cognitive complexity (36)</span>
+                </div>
+                <div class="description">Function &#x27;ProcessUserData&#x27; has cognitive complexity of 36, exceeding threshold of 15. This function is hard to understand due to deeply nested control flow.</div>
+                
+                <div class="suggestion">💡 Reduce nesting by using early returns, guard clauses, or extracting logic.</div>
+            </div>
+            <div class="finding severity-error">
+                <div class="finding-header">
+                    <span class="badge severity-error">ERROR</span>
+                    <span class="rule-id">AST-010</span>
+                    <span class="location">L30</span>
+                    <span class="title">Return with value in __init__</span>
+                </div>
+                <div class="description">__init__ should not return a value (line 30). This will raise a TypeError at runtime.</div>
+                
+                
+            </div>
+            <div class="finding severity-error">
+                <div class="finding-header">
+                    <span class="badge severity-error">ERROR</span>
+                    <span class="rule-id">AST-009</span>
+                    <span class="location">L35</span>
+                    <span class="title">Empty except block (silenced exception)</span>
+                </div>
+                <div class="description">Exception handler at line 35 silently swallows errors with &#x27;pass&#x27;. This hides bugs.</div>
+                <pre class="code-snippet">      33 |         try:
+      34 |             self._work()
+&gt;&gt;&gt;   35 |         except:
+      36 |             pass
+      37 | </pre>
+                <div class="suggestion">💡 Log the exception or handle it appropriately.</div>
+            </div>
+            <div class="finding severity-error">
+                <div class="finding-header">
+                    <span class="badge severity-error">ERROR</span>
+                    <span class="rule-id">AST-013</span>
+                    <span class="location">L41</span>
+                    <span class="title">Duplicate dictionary key</span>
+                </div>
+                <div class="description">Dictionary at line 41 has duplicate keys. The later value will overwrite the earlier one.</div>
+                
+                
+            </div>
+            <div class="finding severity-error">
+                <div class="finding-header">
+                    <span class="badge severity-error">ERROR</span>
+                    <span class="rule-id">SEC-023</span>
+                    <span class="location">L45</span>
+                    <span class="title">Weak hash algorithm (MD5/SHA1)</span>
+                </div>
+                <div class="description">MD5 and SHA1 are cryptographically broken for security purposes.</div>
+                <pre class="code-snippet">      43 | 
+      44 | import hashlib
+&gt;&gt;&gt;   45 | weak_hash = hashlib.md5(b&quot;data&quot;)</pre>
+                <div class="suggestion">💡 Use SHA-256 or SHA-3 for hashing.</div>
+            </div>
+            <div class="finding severity-warning">
+                <div class="finding-header">
+                    <span class="badge severity-warning">WARNING</span>
+                    <span class="rule-id">AST-006</span>
+                    <span class="location">L4</span>
+                    <span class="title">Wildcard import from &#x27;os&#x27;</span>
+                </div>
+                <div class="description">Wildcard import &#x27;from os import *&#x27; pollutes the namespace and makes it unclear which names are available.</div>
+                
+                <div class="suggestion">💡 Import specific names instead of using *.</div>
+            </div>
+            <div class="finding severity-warning">
+                <div class="finding-header">
+                    <span class="badge severity-warning">WARNING</span>
+                    <span class="rule-id">CX-004</span>
+                    <span class="location">L10</span>
+                    <span class="title">Too many parameters (6)</span>
+                </div>
+                <div class="description">Function &#x27;ProcessUserData&#x27; has 6 parameters, exceeding the 5 parameter limit. Consider using a configuration object or dataclass.</div>
+                
+                <div class="suggestion">💡 Group related parameters into a dataclass or TypedDict.</div>
+            </div>
+            <div class="finding severity-warning">
+                <div class="finding-header">
+                    <span class="badge severity-warning">WARNING</span>
+                    <span class="rule-id">CX-005</span>
+                    <span class="location">L10</span>
+                    <span class="title">Excessive nesting depth (8)</span>
+                </div>
+                <div class="description">Function &#x27;ProcessUserData&#x27; has nesting depth of 8, exceeding threshold of 4.</div>
+                
+                <div class="suggestion">💡 Use early returns and guard clauses to flatten control flow.</div>
+            </div>
+            <div class="finding severity-warning">
+                <div class="finding-header">
+                    <span class="badge severity-warning">WARNING</span>
+                    <span class="rule-id">AST-003</span>
+                    <span class="location">L26</span>
+                    <span class="title">Unreachable code</span>
+                </div>
+                <div class="description">Code at line 26 is unreachable — it follows a return statement.</div>
+                <pre class="code-snippet">      23 |                                 if x &lt; 100:
+      24 |                                     data += str(x)
+&gt;&gt;&gt;   25 |     return loaded
+&gt;&gt;&gt;   26 |     print(&quot;unreachable&quot;)
+      27 | 
+      28 | class bad_class:</pre>
+                <div class="suggestion">💡 Remove the unreachable code or restructure the logic.</div>
+            </div>
+            <div class="finding severity-warning">
+                <div class="finding-header">
+                    <span class="badge severity-warning">WARNING</span>
+                    <span class="rule-id">AST-002</span>
+                    <span class="location">L35</span>
+                    <span class="title">Bare except clause</span>
+                </div>
+                <div class="description">Bare &#x27;except:&#x27; catches all exceptions including SystemExit and KeyboardInterrupt. Use &#x27;except Exception:&#x27; instead.</div>
+                <pre class="code-snippet">      33 |         try:
+      34 |             self._work()
+&gt;&gt;&gt;   35 |         except:
+      36 |             pass
+      37 | </pre>
+                <div class="suggestion">💡 Replace with &#x27;except Exception:&#x27; or a more specific exception type.</div>
+            </div>
+            <div class="finding severity-warning">
+                <div class="finding-header">
+                    <span class="badge severity-warning">WARNING</span>
+                    <span class="rule-id">AST-004</span>
+                    <span class="location">L42</span>
+                    <span class="title">Variable shadows builtin &#x27;list&#x27;</span>
+                </div>
+                <div class="description">Variable &#x27;list&#x27; at line 42 shadows the Python builtin &#x27;list&#x27;.</div>
+                
+                
+            </div>
+            <div class="finding severity-info">
+                <div class="finding-header">
+                    <span class="badge severity-info">INFO</span>
+                    <span class="rule-id">STY-010</span>
+                    <span class="location">L1</span>
+                    <span class="title">Missing module docstring</span>
+                </div>
+                <div class="description">Module &#x27;/tmp/demo_9dgkuw3r.py&#x27; lacks a docstring.</div>
+                
+                
+            </div>
+            <div class="finding severity-info">
+                <div class="finding-header">
+                    <span class="badge severity-info">INFO</span>
+                    <span class="rule-id">STY-003</span>
+                    <span class="location">L10</span>
+                    <span class="title">Function name &#x27;ProcessUserData&#x27; not snake_case</span>
+                </div>
+                <div class="description">Function &#x27;ProcessUserData&#x27; at line 10 should use snake_case naming (PEP 8).</div>
+                
+                
+            </div>
+            <div class="finding severity-info">
+                <div class="finding-header">
+                    <span class="badge severity-info">INFO</span>
+                    <span class="rule-id">STY-020</span>
+                    <span class="location">L10</span>
+                    <span class="title">Missing return type annotation for &#x27;ProcessUserData&#x27;</span>
+                </div>
+                <div class="description">Function &#x27;ProcessUserData&#x27; at line 10 is missing a return type annotation.</div>
+                
+                
+            </div>
+            <div class="finding severity-info">
+                <div class="finding-header">
+                    <span class="badge severity-info">INFO</span>
+                    <span class="rule-id">STY-021</span>
+                    <span class="location">L10</span>
+                    <span class="title">Missing type hints in &#x27;ProcessUserData&#x27;</span>
+                </div>
+                <div class="description">Parameters [&#x27;user_id&#x27;, &#x27;data&#x27;, &#x27;config&#x27;, &#x27;options&#x27;, &#x27;verbose&#x27;, &#x27;retry&#x27;] in function &#x27;ProcessUserData&#x27; at line 10 lack type annotations.</div>
+                
+                
+            </div>
+            <div class="finding severity-info">
+                <div class="finding-header">
+                    <span class="badge severity-info">INFO</span>
+                    <span class="rule-id">AST-012</span>
+                    <span class="location">L16</span>
+                    <span class="title">Comparison to None with == instead of &#x27;is&#x27;</span>
+                </div>
+                <div class="description">Use &#x27;is None&#x27; / &#x27;is not None&#x27; instead of &#x27;== None&#x27; / &#x27;!= None&#x27; at line 16.</div>
+                
+                <div class="suggestion">💡 Replace &#x27;== None&#x27; with &#x27;is None&#x27;.</div>
+            </div>
+            <div class="finding severity-info">
+                <div class="finding-header">
+                    <span class="badge severity-info">INFO</span>
+                    <span class="rule-id">STY-004</span>
+                    <span class="location">L28</span>
+                    <span class="title">Class name &#x27;bad_class&#x27; not PascalCase</span>
+                </div>
+                <div class="description">Class &#x27;bad_class&#x27; at line 28 should use PascalCase naming (PEP 8).</div>
+                
+                
+            </div>
+            <div class="finding severity-info">
+                <div class="finding-header">
+                    <span class="badge severity-info">INFO</span>
+                    <span class="rule-id">STY-011</span>
+                    <span class="location">L28</span>
+                    <span class="title">Missing docstring for class &#x27;bad_class&#x27;</span>
+                </div>
+                <div class="description">Public class &#x27;bad_class&#x27; at line 28 lacks a docstring.</div>
+                
+                
+            </div>
+            <div class="finding severity-info">
+                <div class="finding-header">
+                    <span class="badge severity-info">INFO</span>
+                    <span class="rule-id">STY-012</span>
+                    <span class="location">L29</span>
+                    <span class="title">Missing docstring for &#x27;__init__&#x27;</span>
+                </div>
+                <div class="description">Public function &#x27;__init__&#x27; at line 29 lacks a docstring.</div>
+                
+                
+            </div>
+            <div class="finding severity-info">
+                <div class="finding-header">
+                    <span class="badge severity-info">INFO</span>
+                    <span class="rule-id">STY-012</span>
+                    <span class="location">L32</span>
+                    <span class="title">Missing docstring for &#x27;process&#x27;</span>
+                </div>
+                <div class="description">Public function &#x27;process&#x27; at line 32 lacks a docstring.</div>
+                
+                
+            </div>
+            <div class="finding severity-info">
+                <div class="finding-header">
+                    <span class="badge severity-info">INFO</span>
+                    <span class="rule-id">STY-020</span>
+                    <span class="location">L32</span>
+                    <span class="title">Missing return type annotation for &#x27;process&#x27;</span>
+                </div>
+                <div class="description">Function &#x27;process&#x27; at line 32 is missing a return type annotation.</div>
+                
+                
+            </div>
+<footer>Generated by CodeVigil v0.1.0</footer>
+</div>
+</body>
+</html>

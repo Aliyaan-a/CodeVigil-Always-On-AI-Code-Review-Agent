@@ -1,0 +1,24 @@
+analyzers:
+  ast:
+    enabled: true
+    max_complexity: 20
+    max_cognitive_complexity: 25
+    max_function_length: 100
+    max_parameter_count: 8
+    max_nesting_depth: 6
+  security:
+    enabled: true
+    severity_threshold: error
+  style:
+    enabled: false
+  llm:
+    enabled: false
+
+plugins:
+  - security_scanner
+
+reporting:
+  format: console
+  include_suggestions: true
+  include_metrics: false
+  severity_threshold: warning
