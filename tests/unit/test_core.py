@@ -2,18 +2,21 @@
 
 from __future__ import annotations
 
-import pytest
-
-from src.parsers.ast_utils import parse_source, count_nesting_depth, extract_code_snippet
-from src.parsers.diff_parser import DiffParser, ChangeType
-from src.parsers.file_parser import detect_language
-from src.schemas.findings import (
-    Finding, Severity, Category, Location, Suggestion,
-    ReviewScore, ReviewReport, FileAnalysis, ComplexityMetrics,
-)
 from src.agents.aggregator import FindingAggregator
 from src.agents.scorer import Scorer
-
+from src.parsers.ast_utils import count_nesting_depth, extract_code_snippet, parse_source
+from src.parsers.diff_parser import ChangeType, DiffParser
+from src.parsers.file_parser import detect_language
+from src.schemas.findings import (
+    Category,
+    ComplexityMetrics,
+    FileAnalysis,
+    Finding,
+    Location,
+    ReviewReport,
+    ReviewScore,
+    Severity,
+)
 
 # ═══════════════════════════════════════════════════════════════
 # AST Utils Tests
@@ -128,7 +131,7 @@ index abc1234..def5678 100644
 +++ b/src/main.py
 @@ -10,6 +10,8 @@ def existing_func():
      pass
- 
+
 +def new_func():
 +    return 42
 +

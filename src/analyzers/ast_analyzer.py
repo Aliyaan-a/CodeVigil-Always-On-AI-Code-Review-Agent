@@ -9,10 +9,9 @@ that go beyond what regex-based linting can catch.
 from __future__ import annotations
 
 import ast
-from typing import Optional
 
-from src.schemas.findings import Finding, Category, Severity, Location, Suggestion
-from src.parsers.ast_utils import parse_source, extract_code_snippet
+from src.parsers.ast_utils import extract_code_snippet, parse_source
+from src.schemas.findings import Category, Finding, Location, Severity, Suggestion
 
 
 class ASTAnalyzer:
@@ -125,12 +124,8 @@ class ASTAnalyzer:
         terminal = (ast.Return, ast.Raise, ast.Break, ast.Continue)
 
         for node in ast.walk(self.parsed.tree):
-            body: Optional[list[ast.stmt]] = None
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                body = node.body
-            elif isinstance(node, (ast.If, ast.For, ast.While, ast.With)):
-                body = node.body
-            elif isinstance(node, ast.ExceptHandler):
+            body: list[ast.stmt] | None = None
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) or isinstance(node, (ast.If, ast.For, ast.While, ast.With)) or isinstance(node, ast.ExceptHandler):
                 body = node.body
 
             if body is None:

@@ -11,9 +11,8 @@ import importlib
 import inspect
 import pkgutil
 from pathlib import Path
-from typing import Any, Optional
 
-from src.plugins.base import AnalyzerPlugin, BaseAnalyzerPlugin, AnalysisContext
+from src.plugins.base import AnalysisContext, AnalyzerPlugin, BaseAnalyzerPlugin
 from src.schemas.findings import Finding
 
 
@@ -61,11 +60,11 @@ class PluginRegistry:
             del self._plugins[name]
             self._load_order.remove(name)
 
-    def get(self, name: str) -> Optional[AnalyzerPlugin]:
+    def get(self, name: str) -> AnalyzerPlugin | None:
         """Get a plugin by name."""
         return self._plugins.get(name)
 
-    def discover_plugins(self, package_path: Optional[str] = None) -> int:
+    def discover_plugins(self, package_path: str | None = None) -> int:
         """
         Auto-discover plugins from the plugins package.
 
@@ -81,7 +80,7 @@ class PluginRegistry:
         package_name = "src.plugins"
 
         try:
-            package = importlib.import_module(package_name)
+            importlib.import_module(package_name)
         except ImportError:
             return 0
 
@@ -118,7 +117,7 @@ class PluginRegistry:
     def run_all(
         self,
         context: AnalysisContext,
-        filter_names: Optional[list[str]] = None,
+        filter_names: list[str] | None = None,
     ) -> list[Finding]:
         """
         Run all registered plugins (or a filtered subset) on the given context.
@@ -126,7 +125,8 @@ class PluginRegistry:
         Returns aggregated findings from all plugins.
         """
         findings: list[Finding] = []
-        names_to_run = filter_names or self._load_order
+        # An empty list means "run no plugins"; only None means "run all".
+        names_to_run = self._load_order if filter_names is None else filter_names
 
         for name in names_to_run:
             plugin = self._plugins.get(name)
@@ -146,7 +146,7 @@ class PluginRegistry:
                 # Update context with findings for cascading analysis
                 context.prior_findings.extend(plugin_findings)
             except Exception as e:
-                from src.schemas.findings import Severity, Category, Location
+                from src.schemas.findings import Category, Location, Severity
                 findings.append(Finding(
                     rule_id="PLG-ERR",
                     title=f"Plugin '{name}' failed",

@@ -2,19 +2,18 @@
 
 from __future__ import annotations
 
-import pytest
-import tempfile
 from pathlib import Path
 
+import pytest
+
 from src.agents.orchestrator import Orchestrator
-from src.schemas.config import CodeVigilConfig
-from src.schemas.findings import Severity
+from src.reporters.console_reporter import ConsoleReporter
+from src.reporters.html_reporter import HTMLReporter
 from src.reporters.json_reporter import JSONReporter
 from src.reporters.markdown_reporter import MarkdownReporter
-from src.reporters.html_reporter import HTMLReporter
 from src.reporters.sarif_reporter import SARIFReporter
-from src.reporters.console_reporter import ConsoleReporter
-
+from src.schemas.config import CodeVigilConfig
+from src.schemas.findings import Severity
 
 SAMPLE_BAD_CODE = '''
 import os

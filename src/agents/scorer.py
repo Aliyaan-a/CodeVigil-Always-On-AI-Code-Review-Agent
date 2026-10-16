@@ -7,8 +7,8 @@ adjusting weights based on configuration and context.
 
 from __future__ import annotations
 
-from src.schemas.findings import Finding, ReviewScore, FileAnalysis
 from src.schemas.config import ScoringConfig
+from src.schemas.findings import FileAnalysis, Finding, ReviewScore
 
 
 class Scorer:

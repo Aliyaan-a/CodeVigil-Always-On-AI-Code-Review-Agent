@@ -9,20 +9,15 @@ Usage:
 
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-from typing import Optional
-
 import click
 
-from src.schemas.config import CodeVigilConfig
 from src.agents.orchestrator import Orchestrator
 from src.reporters.console_reporter import ConsoleReporter
+from src.reporters.html_reporter import HTMLReporter
 from src.reporters.json_reporter import JSONReporter
 from src.reporters.markdown_reporter import MarkdownReporter
-from src.reporters.html_reporter import HTMLReporter
 from src.reporters.sarif_reporter import SARIFReporter
-
+from src.schemas.config import CodeVigilConfig
 
 REPORTERS = {
     "console": ConsoleReporter,
@@ -38,7 +33,7 @@ REPORTERS = {
 @click.version_option(version="0.1.0", prog_name="CodeVigil")
 @click.option("--config", "-c", type=click.Path(exists=True), help="Config file path")
 @click.pass_context
-def cli(ctx: click.Context, config: Optional[str]) -> None:
+def cli(ctx: click.Context, config: str | None) -> None:
     """🔍 CodeVigil — AI-Powered Code Review Agent"""
     ctx.ensure_object(dict)
     ctx.obj["config_path"] = config
@@ -50,7 +45,7 @@ def cli(ctx: click.Context, config: Optional[str]) -> None:
 @click.option("--output", "-o", type=click.Path(), help="Output file path")
 @click.option("--severity", "-s", default="info", type=click.Choice(["info", "warning", "error", "critical"]))
 @click.pass_context
-def review(ctx: click.Context, file_path: str, fmt: str, output: Optional[str], severity: str) -> None:
+def review(ctx: click.Context, file_path: str, fmt: str, output: str | None, severity: str) -> None:
     """Review a single source file."""
     config = _load_config(ctx, severity=severity, fmt=fmt, output=output)
     orchestrator = Orchestrator(config)
@@ -65,7 +60,7 @@ def review(ctx: click.Context, file_path: str, fmt: str, output: Optional[str], 
 @click.option("--output", "-o", type=click.Path(), help="Output file path")
 @click.option("--severity", "-s", default="info", type=click.Choice(["info", "warning", "error", "critical"]))
 @click.pass_context
-def diff(ctx: click.Context, ref: str, staged: bool, fmt: str, output: Optional[str], severity: str) -> None:
+def diff(ctx: click.Context, ref: str, staged: bool, fmt: str, output: str | None, severity: str) -> None:
     """Review changes from a Git diff."""
     config = _load_config(ctx, severity=severity, fmt=fmt, output=output)
     orchestrator = Orchestrator(config)
@@ -84,7 +79,7 @@ def diff(ctx: click.Context, ref: str, staged: bool, fmt: str, output: Optional[
 @click.option("--output", "-o", type=click.Path(), help="Output file path")
 @click.option("--severity", "-s", default="info", type=click.Choice(["info", "warning", "error", "critical"]))
 @click.pass_context
-def scan(ctx: click.Context, directory: str, fmt: str, output: Optional[str], severity: str) -> None:
+def scan(ctx: click.Context, directory: str, fmt: str, output: str | None, severity: str) -> None:
     """Scan all Python files in a directory."""
     config = _load_config(ctx, severity=severity, fmt=fmt, output=output)
     orchestrator = Orchestrator(config)
@@ -98,7 +93,7 @@ def _load_config(
     ctx: click.Context,
     severity: str = "info",
     fmt: str = "console",
-    output: Optional[str] = None,
+    output: str | None = None,
 ) -> CodeVigilConfig:
     """Load and patch configuration from CLI options."""
     config_path = ctx.obj.get("config_path")
@@ -110,7 +105,7 @@ def _load_config(
     return config
 
 
-def _output_report(report: any, fmt: str, output: Optional[str]) -> None:
+def _output_report(report: any, fmt: str, output: str | None) -> None:
     """Dispatch the report to the appropriate reporter."""
     reporter_cls = REPORTERS.get(fmt, ConsoleReporter)
 

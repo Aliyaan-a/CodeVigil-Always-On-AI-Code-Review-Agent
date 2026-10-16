@@ -10,8 +10,18 @@ from __future__ import annotations
 
 import time
 from pathlib import Path
-from typing import Optional
 
+from src.agents.aggregator import FindingAggregator
+from src.agents.scorer import Scorer
+from src.analyzers.ast_analyzer import ASTAnalyzer
+from src.analyzers.complexity import analyze_complexity
+from src.analyzers.llm_analyzer import LLMAnalyzer
+from src.analyzers.security_analyzer import SecurityAnalyzer
+from src.analyzers.style_analyzer import StyleAnalyzer
+from src.parsers.diff_parser import DiffParser, DiffResult
+from src.parsers.file_parser import SourceFile, collect_files, read_source_file
+from src.plugins.base import AnalysisContext
+from src.plugins.registry import PluginRegistry
 from src.schemas.config import CodeVigilConfig
 from src.schemas.findings import (
     FileAnalysis,
@@ -19,17 +29,6 @@ from src.schemas.findings import (
     ReviewReport,
     Severity,
 )
-from src.parsers.file_parser import read_source_file, collect_files, SourceFile
-from src.parsers.diff_parser import DiffParser, DiffResult
-from src.analyzers.ast_analyzer import ASTAnalyzer
-from src.analyzers.complexity import analyze_complexity
-from src.analyzers.security_analyzer import SecurityAnalyzer
-from src.analyzers.style_analyzer import StyleAnalyzer
-from src.analyzers.llm_analyzer import LLMAnalyzer
-from src.agents.aggregator import FindingAggregator
-from src.agents.scorer import Scorer
-from src.plugins.base import AnalysisContext
-from src.plugins.registry import PluginRegistry
 
 
 class Orchestrator:
@@ -46,11 +45,11 @@ class Orchestrator:
     7. Generate report
     """
 
-    def __init__(self, config: Optional[CodeVigilConfig] = None):
+    def __init__(self, config: CodeVigilConfig | None = None):
         self.config = config or CodeVigilConfig.load()
         self.scorer = Scorer(self.config.scoring)
         self.plugin_registry = PluginRegistry()
-        self._llm_analyzer: Optional[LLMAnalyzer] = None
+        self._llm_analyzer: LLMAnalyzer | None = None
 
         # Initialize plugins
         self.plugin_registry.discover_plugins()
@@ -85,7 +84,7 @@ class Orchestrator:
         self,
         ref: str = "HEAD~1",
         staged: bool = False,
-        repo_path: Optional[str] = None,
+        repo_path: str | None = None,
     ) -> ReviewReport:
         """Review changes from a Git diff."""
         start = time.perf_counter()
@@ -133,7 +132,7 @@ class Orchestrator:
     def _analyze_source(
         self,
         source_file: SourceFile,
-        changed_lines: Optional[set[int]] = None,
+        changed_lines: set[int] | None = None,
     ) -> FileAnalysis:
         """Run the full analysis pipeline on a single source file."""
         file_start = time.perf_counter()
@@ -225,7 +224,7 @@ class Orchestrator:
     def _review_diff_result(
         self,
         diff: DiffResult,
-        repo_path: Optional[str],
+        repo_path: str | None,
     ) -> ReviewReport:
         """Review files from a parsed diff result."""
         base = Path(repo_path) if repo_path else Path.cwd()
@@ -257,7 +256,7 @@ class Orchestrator:
     @staticmethod
     def _filter_by_changed_lines(
         findings: list[Finding],
-        changed_lines: Optional[set[int]],
+        changed_lines: set[int] | None,
     ) -> list[Finding]:
         """Filter findings to only those on changed lines."""
         if changed_lines is None:
@@ -268,9 +267,6 @@ class Orchestrator:
             start = f.location.start_line
             end = f.location.end_line or start
             # Include if any line in the finding's range is in the changed set
-            if any(line in changed_lines for line in range(start, end + 1)):
-                filtered.append(f)
-            # Always include critical security findings regardless of diff
-            elif f.severity == Severity.CRITICAL and f.category.value == "security":
+            if any(line in changed_lines for line in range(start, end + 1)) or f.severity == Severity.CRITICAL and f.category.value == "security":
                 filtered.append(f)
         return filtered

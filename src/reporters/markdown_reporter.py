@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional
 
-from src.schemas.findings import ReviewReport, Severity, Finding
-
+from src.schemas.findings import Finding, ReviewReport, Severity
 
 SEVERITY_EMOJI = {
     Severity.INFO: "ℹ️",
@@ -19,7 +17,7 @@ SEVERITY_EMOJI = {
 class MarkdownReporter:
     """Renders a ReviewReport as Markdown — suitable for PR comments."""
 
-    def render(self, report: ReviewReport, output_path: Optional[str] = None) -> str:
+    def render(self, report: ReviewReport, output_path: str | None = None) -> str:
         sections = [
             self._header(report),
             self._score_section(report),
@@ -73,9 +71,9 @@ class MarkdownReporter:
             return ""
 
         return (
-            f"## Findings Summary\n\n"
-            f"| Severity | Count |\n"
-            f"|----------|-------|\n"
+            "## Findings Summary\n\n"
+            "| Severity | Count |\n"
+            "|----------|-------|\n"
             + "\n".join(rows)
         )
 

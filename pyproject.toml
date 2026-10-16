@@ -11,7 +11,7 @@ license = {text = "MIT"}
 requires-python = ">=3.10"
 authors = [
     {name = "Aliyaan Ahmed", email = "aliyaanahmed001126@gmail.com"},
-    ]
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -69,7 +69,21 @@ target-version = ["py310"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+
+[tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "DTZ", "T10", "ISC", "ICN", "PIE", "PT", "RSE", "RET", "SLF", "SIM", "TID", "TCH", "ARG", "PTH", "ERA"]
+# Style preferences the existing codebase does not follow. Black handles
+# formatting, and subprocess calls to `git` are intentional.
+ignore = [
+    "E501", "E701", "N806", "TC001", "TC003", "PTH123", "SLF001",
+    "SIM101", "SIM102", "SIM103", "SIM105", "SIM108", "SIM110",
+    "B007", "B027", "B904", "B905", "ARG002",
+    "S110", "S112", "S603", "S607",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests use plain asserts by design.
+"tests/**" = ["S101"]
 
 [tool.mypy]
 python_version = "3.10"

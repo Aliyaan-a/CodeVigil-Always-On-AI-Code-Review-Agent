@@ -12,7 +12,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 
 class Severity(str, Enum):
@@ -63,11 +63,11 @@ class Category(str, Enum):
 class Location:
     file_path: str
     start_line: int = 1
-    end_line: Optional[int] = None
-    start_col: Optional[int] = None
-    end_col: Optional[int] = None
-    function_name: Optional[str] = None
-    class_name: Optional[str] = None
+    end_line: int | None = None
+    start_col: int | None = None
+    end_col: int | None = None
+    function_name: str | None = None
+    class_name: str | None = None
 
     def __post_init__(self) -> None:
         if self.end_line is not None and self.end_line < self.start_line:
@@ -90,8 +90,8 @@ class Location:
 @dataclass
 class Suggestion:
     description: str
-    replacement_code: Optional[str] = None
-    diff: Optional[str] = None
+    replacement_code: str | None = None
+    diff: str | None = None
     confidence: float = 0.8
 
 
@@ -104,8 +104,8 @@ class Finding:
     category: Category
     location: Location
     source_analyzer: str
-    suggestion: Optional[Suggestion] = None
-    code_snippet: Optional[str] = None
+    suggestion: Suggestion | None = None
+    code_snippet: str | None = None
     references: list[str] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -161,9 +161,9 @@ class ComplexityMetrics:
     lines_of_code: int
     parameter_count: int
     nesting_depth: int
-    halstead_volume: Optional[float] = None
-    halstead_difficulty: Optional[float] = None
-    maintainability_index: Optional[float] = None
+    halstead_volume: float | None = None
+    halstead_difficulty: float | None = None
+    maintainability_index: float | None = None
 
     @property
     def risk_level(self) -> str:
@@ -209,7 +209,7 @@ class ReviewScore:
 
     @classmethod
     def compute(cls, findings: list[Finding], total_lines: int,
-                weights: Optional[dict[str, float]] = None) -> ReviewScore:
+                weights: dict[str, float] | None = None) -> ReviewScore:
         if total_lines == 0:
             return cls(overall=100.0, security=100.0, maintainability=100.0,
                        reliability=100.0, style=100.0, grade="A")
@@ -260,7 +260,7 @@ class ReviewReport:
     project_name: str = "unknown"
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     files_analyzed: list[FileAnalysis] = field(default_factory=list)
-    score: Optional[ReviewScore] = None
+    score: ReviewScore | None = None
     summary: str = ""
     configuration: dict[str, Any] = field(default_factory=dict)
     analysis_duration_ms: float = 0.0

@@ -2,18 +2,13 @@
 
 from __future__ import annotations
 
-import pytest
-
 from src.analyzers.ast_analyzer import ASTAnalyzer
 from src.analyzers.complexity import (
     analyze_complexity,
-    compute_cyclomatic_complexity,
-    compute_cognitive_complexity,
 )
 from src.analyzers.security_analyzer import SecurityAnalyzer
 from src.analyzers.style_analyzer import StyleAnalyzer
-from src.schemas.findings import Severity, Category
-
+from src.schemas.findings import Severity
 
 # ═══════════════════════════════════════════════════════════════
 # AST Analyzer Tests

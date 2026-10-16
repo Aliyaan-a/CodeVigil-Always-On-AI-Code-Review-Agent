@@ -7,7 +7,6 @@ from __future__ import annotations
 import fnmatch
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 
 @dataclass
@@ -73,8 +72,8 @@ def read_source_file(path: str | Path, encoding: str = "utf-8") -> SourceFile:
 
 def collect_files(
     root: str | Path,
-    extensions: Optional[list[str]] = None,
-    ignore_patterns: Optional[list[str]] = None,
+    extensions: list[str] | None = None,
+    ignore_patterns: list[str] | None = None,
 ) -> list[SourceFile]:
     """Recursively collect source files from a directory."""
     root = Path(root)

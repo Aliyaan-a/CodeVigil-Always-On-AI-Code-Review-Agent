@@ -7,11 +7,10 @@ severity badges, score visualizations, and tables.
 
 from __future__ import annotations
 
-from typing import TextIO
 import sys
+from typing import TextIO
 
-from src.schemas.findings import ReviewReport, Severity, Finding
-
+from src.schemas.findings import Finding, ReviewReport, Severity
 
 # Severity → terminal color codes (ANSI)
 SEVERITY_COLORS = {

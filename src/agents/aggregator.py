@@ -7,8 +7,6 @@ on content fingerprints, and handles overlapping detections.
 
 from __future__ import annotations
 
-from typing import Optional
-
 from src.schemas.findings import Finding, Severity
 
 
@@ -57,10 +55,10 @@ class FindingAggregator:
 
     def get_findings(
         self,
-        min_severity: Optional[Severity] = None,
-        category: Optional[str] = None,
-        source_analyzer: Optional[str] = None,
-        limit: Optional[int] = None,
+        min_severity: Severity | None = None,
+        category: str | None = None,
+        source_analyzer: str | None = None,
+        limit: int | None = None,
     ) -> list[Finding]:
         """Get filtered and sorted findings."""
         results = self._findings

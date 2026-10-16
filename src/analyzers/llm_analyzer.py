@@ -14,11 +14,10 @@ from __future__ import annotations
 import json
 import os
 import re
-from typing import Any, Optional, Protocol
+from typing import Protocol
 
-from src.schemas.findings import Finding, Category, Severity, Location, Suggestion
 from src.schemas.config import LLMAnalyzerConfig
-
+from src.schemas.findings import Category, Finding, Location, Severity, Suggestion
 
 # ── LLM Provider Protocol ──────────────────────────────────────────
 
@@ -158,8 +157,8 @@ class LLMAnalyzer:
 
     def __init__(
         self,
-        config: Optional[LLMAnalyzerConfig] = None,
-        provider: Optional[LLMProvider] = None,
+        config: LLMAnalyzerConfig | None = None,
+        provider: LLMProvider | None = None,
     ):
         self.config = config or LLMAnalyzerConfig()
         self._provider = provider
@@ -216,7 +215,7 @@ class LLMAnalyzer:
         user_prompt = f"Review this Python file ({file_path}):\n\n```python\n{source}\n```"
 
         # Retry logic
-        last_error: Optional[Exception] = None
+        last_error: Exception | None = None
         for attempt in range(self.config.retry_attempts):
             try:
                 response = self.provider.complete(system_prompt, user_prompt)

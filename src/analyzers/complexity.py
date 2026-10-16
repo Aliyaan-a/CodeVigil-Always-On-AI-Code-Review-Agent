@@ -9,10 +9,16 @@ from __future__ import annotations
 
 import ast
 import math
-from typing import Optional
 
-from src.schemas.findings import ComplexityMetrics, Finding, Category, Severity, Location, Suggestion
-from src.parsers.ast_utils import parse_source, walk_functions, count_nesting_depth
+from src.parsers.ast_utils import count_nesting_depth, parse_source, walk_functions
+from src.schemas.findings import (
+    Category,
+    ComplexityMetrics,
+    Finding,
+    Location,
+    Severity,
+    Suggestion,
+)
 
 
 def compute_cyclomatic_complexity(node: ast.FunctionDef | ast.AsyncFunctionDef) -> int:
@@ -26,15 +32,7 @@ def compute_cyclomatic_complexity(node: ast.FunctionDef | ast.AsyncFunctionDef) 
     complexity = 1
 
     for child in ast.walk(node):
-        if isinstance(child, (ast.If, ast.IfExp)):
-            complexity += 1
-        elif isinstance(child, (ast.For, ast.AsyncFor, ast.While)):
-            complexity += 1
-        elif isinstance(child, ast.ExceptHandler):
-            complexity += 1
-        elif isinstance(child, (ast.With, ast.AsyncWith)):
-            complexity += 1
-        elif isinstance(child, ast.Assert):
+        if isinstance(child, (ast.If, ast.IfExp)) or isinstance(child, (ast.For, ast.AsyncFor, ast.While)) or isinstance(child, ast.ExceptHandler) or isinstance(child, (ast.With, ast.AsyncWith)) or isinstance(child, ast.Assert):
             complexity += 1
         elif isinstance(child, ast.BoolOp):
             # Each 'and'/'or' adds a path
@@ -138,7 +136,7 @@ def compute_cognitive_complexity(node: ast.FunctionDef | ast.AsyncFunctionDef) -
 
 def compute_halstead_metrics(
     node: ast.FunctionDef | ast.AsyncFunctionDef,
-) -> tuple[Optional[float], Optional[float]]:
+) -> tuple[float | None, float | None]:
     """
     Compute Halstead volume and difficulty.
 
@@ -150,20 +148,8 @@ def compute_halstead_metrics(
     total_operators = 0
     total_operands = 0
 
-    operator_types = (
-        ast.Add, ast.Sub, ast.Mult, ast.Div, ast.FloorDiv, ast.Mod, ast.Pow,
-        ast.LShift, ast.RShift, ast.BitOr, ast.BitXor, ast.BitAnd, ast.MatMult,
-        ast.And, ast.Or, ast.Not, ast.Invert, ast.UAdd, ast.USub,
-        ast.Eq, ast.NotEq, ast.Lt, ast.LtE, ast.Gt, ast.GtE, ast.Is, ast.IsNot,
-        ast.In, ast.NotIn,
-    )
-
     for child in ast.walk(node):
-        if isinstance(child, ast.BinOp):
-            op_name = type(child.op).__name__
-            operators.add(op_name)
-            total_operators += 1
-        elif isinstance(child, ast.UnaryOp):
+        if isinstance(child, ast.BinOp) or isinstance(child, ast.UnaryOp):
             op_name = type(child.op).__name__
             operators.add(op_name)
             total_operators += 1
@@ -206,10 +192,10 @@ def compute_halstead_metrics(
 
 
 def compute_maintainability_index(
-    halstead_volume: Optional[float],
+    halstead_volume: float | None,
     cyclomatic: int,
     loc: int,
-) -> Optional[float]:
+) -> float | None:
     """
     Compute maintainability index (MI).
 

@@ -4,15 +4,14 @@ from __future__ import annotations
 
 import html
 from pathlib import Path
-from typing import Optional
 
-from src.schemas.findings import ReviewReport, Severity
+from src.schemas.findings import ReviewReport
 
 
 class HTMLReporter:
     """Renders a ReviewReport as a standalone HTML page."""
 
-    def render(self, report: ReviewReport, output_path: Optional[str] = None) -> str:
+    def render(self, report: ReviewReport, output_path: str | None = None) -> str:
         content = self._build_html(report)
         if output_path:
             Path(output_path).write_text(content, encoding="utf-8")

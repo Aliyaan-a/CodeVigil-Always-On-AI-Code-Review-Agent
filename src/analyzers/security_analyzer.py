@@ -11,10 +11,9 @@ from __future__ import annotations
 import ast
 import re
 from dataclasses import dataclass, field
-from typing import Optional
 
-from src.schemas.findings import Finding, Category, Severity, Location, Suggestion
-from src.parsers.ast_utils import parse_source, extract_code_snippet
+from src.parsers.ast_utils import extract_code_snippet, parse_source
+from src.schemas.findings import Category, Finding, Location, Severity, Suggestion
 
 
 @dataclass
@@ -25,8 +24,8 @@ class SecurityPattern:
     title: str
     description: str
     severity: Severity
-    regex: Optional[re.Pattern] = None
-    ast_check: Optional[str] = None
+    regex: re.Pattern | None = None
+    ast_check: str | None = None
     suggestion: str = ""
     references: list[str] = field(default_factory=list)
 
@@ -223,7 +222,8 @@ class SecurityAnalyzer:
 
     def _check_regex(self, pattern: SecurityPattern) -> None:
         """Apply a regex pattern across all lines."""
-        assert pattern.regex is not None
+        if pattern.regex is None:
+            return
         for i, line in enumerate(self.lines, start=1):
             if pattern.regex.search(line):
                 # Skip comments
@@ -419,7 +419,7 @@ class SecurityAnalyzer:
 
     # ── Helpers ──────────────────────────────────────────────────
 
-    def _get_call_name(self, node: ast.Call) -> Optional[str]:
+    def _get_call_name(self, node: ast.Call) -> str | None:
         """Extract the full dotted name of a function call."""
         if isinstance(node.func, ast.Name):
             return node.func.id
@@ -434,7 +434,7 @@ class SecurityAnalyzer:
                 return ".".join(reversed(parts))
         return None
 
-    def _find_parent_assign(self, node: ast.AST) -> Optional[list[str]]:
+    def _find_parent_assign(self, node: ast.AST) -> list[str] | None:
         """Try to find variable names this expression is assigned to."""
         # Simplified — walk up isn't easy with stdlib ast
         # Instead, scan for assignments containing this call

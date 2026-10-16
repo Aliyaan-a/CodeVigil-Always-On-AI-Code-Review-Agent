@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import logging
 import sys
-from typing import Optional
 
 
-def setup_logging(level: str = "INFO", log_file: Optional[str] = None) -> logging.Logger:
+def setup_logging(level: str = "INFO", log_file: str | None = None) -> logging.Logger:
     """Configure structured logging for the application."""
     logger = logging.getLogger("codevigil")
     logger.setLevel(getattr(logging, level.upper(), logging.INFO))

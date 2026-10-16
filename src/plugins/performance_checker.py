@@ -10,9 +10,9 @@ from __future__ import annotations
 
 import ast
 
-from src.plugins.base import BaseAnalyzerPlugin, AnalysisContext
-from src.schemas.findings import Finding, Category, Severity, Location, Suggestion
-from src.parsers.ast_utils import parse_source, extract_code_snippet
+from src.parsers.ast_utils import extract_code_snippet, parse_source
+from src.plugins.base import AnalysisContext, BaseAnalyzerPlugin
+from src.schemas.findings import Category, Finding, Location, Severity, Suggestion
 
 
 class PerformanceCheckerPlugin(BaseAnalyzerPlugin):

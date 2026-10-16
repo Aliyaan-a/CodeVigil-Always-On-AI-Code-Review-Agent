@@ -7,9 +7,9 @@ plugin registry system.
 
 from __future__ import annotations
 
-from src.plugins.base import BaseAnalyzerPlugin, AnalysisContext
-from src.schemas.findings import Finding
 from src.analyzers.security_analyzer import SecurityAnalyzer
+from src.plugins.base import AnalysisContext, BaseAnalyzerPlugin
+from src.schemas.findings import Finding
 
 
 class SecurityScannerPlugin(BaseAnalyzerPlugin):

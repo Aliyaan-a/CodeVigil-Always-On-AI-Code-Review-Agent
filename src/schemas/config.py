@@ -10,7 +10,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import yaml
 
@@ -36,7 +36,7 @@ class SecurityAnalyzerConfig:
     check_path_traversal: bool = True
     check_insecure_deserialization: bool = True
     check_weak_crypto: bool = True
-    secret_patterns_file: Optional[str] = None
+    secret_patterns_file: str | None = None
 
 
 @dataclass
@@ -56,7 +56,7 @@ class LLMAnalyzerConfig:
     temperature: float = 0.1
     max_tokens: int = 2000
     api_key_env: str = "OPENAI_API_KEY"
-    system_prompt: Optional[str] = None
+    system_prompt: str | None = None
     retry_attempts: int = 3
     timeout_seconds: int = 30
 
@@ -80,12 +80,12 @@ class ScoringConfig:
 @dataclass
 class ReportingConfig:
     format: str = "console"
-    output_file: Optional[str] = None
+    output_file: str | None = None
     include_suggestions: bool = True
     include_metrics: bool = True
     include_code_snippets: bool = True
     severity_threshold: str = "info"
-    max_findings: Optional[int] = None
+    max_findings: int | None = None
 
 
 @dataclass
@@ -100,7 +100,7 @@ class CodeVigilConfig:
     file_extensions: list[str] = field(default_factory=lambda: [".py"])
 
     @classmethod
-    def load(cls, config_path: Optional[str | Path] = None) -> CodeVigilConfig:
+    def load(cls, config_path: str | Path | None = None) -> CodeVigilConfig:
         config_data: dict[str, Any] = {}
 
         search_paths = [

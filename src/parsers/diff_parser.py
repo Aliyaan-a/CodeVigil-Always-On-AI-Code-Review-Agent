@@ -13,7 +13,6 @@ import subprocess
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Optional
 
 
 class ChangeType(str, Enum):
@@ -42,7 +41,7 @@ class FileDiff:
 
     file_path: str
     change_type: ChangeType
-    old_path: Optional[str] = None
+    old_path: str | None = None
     added_lines: list[int] = field(default_factory=list)
     deleted_lines: list[int] = field(default_factory=list)
     hunks: list[HunkRange] = field(default_factory=list)
@@ -62,8 +61,8 @@ class DiffResult:
     """Complete diff result across all changed files."""
 
     files: list[FileDiff] = field(default_factory=list)
-    base_ref: Optional[str] = None
-    head_ref: Optional[str] = None
+    base_ref: str | None = None
+    head_ref: str | None = None
     raw_output: str = ""
 
     @property
@@ -91,13 +90,13 @@ class DiffParser:
     DIFF_FILE_RE = re.compile(r"^diff --git a/(.*) b/(.*)")
     RENAME_RE = re.compile(r"^rename from (.+)")
 
-    def __init__(self, repo_path: Optional[str | Path] = None):
+    def __init__(self, repo_path: str | Path | None = None):
         self.repo_path = Path(repo_path) if repo_path else Path.cwd()
 
     def parse_diff_string(self, diff_text: str) -> DiffResult:
         """Parse a unified diff string into structured format."""
         result = DiffResult(raw_output=diff_text)
-        current_file: Optional[FileDiff] = None
+        current_file: FileDiff | None = None
         current_new_line = 0
 
         for line in diff_text.splitlines():

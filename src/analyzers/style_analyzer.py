@@ -9,11 +9,9 @@ from __future__ import annotations
 
 import ast
 import re
-from typing import Optional
 
-from src.schemas.findings import Finding, Category, Severity, Location, Suggestion
-from src.parsers.ast_utils import parse_source, extract_code_snippet
-
+from src.parsers.ast_utils import parse_source
+from src.schemas.findings import Category, Finding, Location, Severity, Suggestion
 
 # PEP 8 naming patterns
 SNAKE_CASE_RE = re.compile(r"^_?_?[a-z][a-z0-9_]*_?_?$")

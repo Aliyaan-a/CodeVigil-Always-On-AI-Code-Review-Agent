@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import subprocess
 from pathlib import Path
-from typing import Optional
 
 
-def get_repo_root(path: Optional[str] = None) -> Path:
+def get_repo_root(path: str | None = None) -> Path:
     """Find the root of the Git repository."""
     try:
         result = subprocess.run(
@@ -22,7 +21,7 @@ def get_repo_root(path: Optional[str] = None) -> Path:
     return Path(path) if path else Path.cwd()
 
 
-def get_current_branch(path: Optional[str] = None) -> str:
+def get_current_branch(path: str | None = None) -> str:
     """Get the current Git branch name."""
     try:
         result = subprocess.run(
@@ -35,7 +34,7 @@ def get_current_branch(path: Optional[str] = None) -> str:
         return "unknown"
 
 
-def get_staged_files(path: Optional[str] = None) -> list[str]:
+def get_staged_files(path: str | None = None) -> list[str]:
     """List files staged for commit."""
     try:
         result = subprocess.run(
@@ -48,7 +47,7 @@ def get_staged_files(path: Optional[str] = None) -> list[str]:
         return []
 
 
-def is_git_repo(path: Optional[str] = None) -> bool:
+def is_git_repo(path: str | None = None) -> bool:
     """Check if the current directory is inside a Git repository."""
     try:
         result = subprocess.run(

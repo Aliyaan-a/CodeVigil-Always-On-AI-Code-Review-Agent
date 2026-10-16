@@ -9,8 +9,8 @@ from __future__ import annotations
 
 import ast
 import textwrap
+from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Iterator, Optional
 
 
 @dataclass
@@ -24,15 +24,15 @@ class FunctionInfo:
     args: list[str]
     defaults_count: int
     decorators: list[str]
-    return_annotation: Optional[str]
+    return_annotation: str | None
     is_async: bool
     is_method: bool
     is_staticmethod: bool
     is_classmethod: bool
     is_property: bool
-    docstring: Optional[str]
+    docstring: str | None
     body_lines: int
-    class_name: Optional[str] = None
+    class_name: str | None = None
 
 
 @dataclass
@@ -45,7 +45,7 @@ class ClassInfo:
     bases: list[str]
     decorators: list[str]
     methods: list[FunctionInfo]
-    docstring: Optional[str]
+    docstring: str | None
 
 
 @dataclass
@@ -54,7 +54,7 @@ class ImportInfo:
 
     module: str
     names: list[str]
-    alias: Optional[str]
+    alias: str | None
     lineno: int
     is_from_import: bool
 
@@ -120,7 +120,7 @@ def parse_source(source: str) -> ParsedModule:
 
 def _extract_function(
     node: ast.FunctionDef | ast.AsyncFunctionDef,
-    class_name: Optional[str],
+    class_name: str | None,
 ) -> FunctionInfo:
     """Extract function metadata from an AST node."""
     decorators = []
@@ -253,7 +253,7 @@ def count_nesting_depth(node: ast.AST) -> int:
     return _depth(node, 0)
 
 
-def extract_code_snippet(source: str, start_line: int, end_line: Optional[int] = None, context: int = 2) -> str:
+def extract_code_snippet(source: str, start_line: int, end_line: int | None = None, context: int = 2) -> str:
     """Extract a code snippet with surrounding context lines."""
     lines = source.splitlines()
     start = max(0, start_line - 1 - context)
